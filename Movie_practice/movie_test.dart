@@ -8,17 +8,17 @@ void main() {
 
 class MovieTest {
   late Movie movie;
-  late MovieReview movieReview;
-  late MovieReporter movieReporter;
 
-  void createMovieAndReviewAndReporter() {
+  void createMovie() {
     movie = Movie('The Abyss');
-    movieReview = MovieReview(5, 'Ahmed', 'Nice Movie i watched');
-    movieReporter = MovieReporter();
   }
 
   void applyRatingAndReviewForMovie() {
-    setUp(createMovieAndReviewAndReporter);
+    late MovieReview movieReview;
+    setUp(() {
+      createMovie();
+      movieReview = MovieReview(5, 'Ahmed', 'Nice Movie i watched');
+    });
     test('applyRatingAndReviewForMovie', () {
       movie.addReview(movieReview);
       expect(movie.reviews().contains(movieReview), true);
@@ -26,7 +26,7 @@ class MovieTest {
   }
 
   void calculateAverageRatingForReviews() {
-    setUp(createMovieAndReviewAndReporter);
+    setUp(createMovie);
     test('calculateAverageRatingForReviews', () {
       movie.addReview(MovieReview(4, 'Anonymous', 'ok'));
       movie.addReview(MovieReview(5, 'Anonymous', 'ok'));
@@ -39,7 +39,11 @@ class MovieTest {
   }
 
   void reportMovieReviews() {
-    setUp(createMovieAndReviewAndReporter);
+    late MovieReporter movieReporter;
+    setUp(() {
+      createMovie();
+      movieReporter = MovieReporter();
+    });
     test('reportMovieReviews', () {
       expect(movieReporter.report(movie), _expectedMovieReport(movie));
     });
