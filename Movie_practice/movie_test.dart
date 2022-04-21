@@ -2,7 +2,14 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   MovieTest().applyRatingAndReviewForMovie();
-  MovieTest().calculateAverageRatingForReviews();
+  MovieTest().calculateAverageRatingForReviews(3.3333333333333335, [
+    MovieReview(4, 'Anonymous', 'ok'),
+    MovieReview(5, 'Anonymous', 'ok'),
+    MovieReview(3, 'Anonymous', 'ok'),
+    MovieReview(2, 'Anonymous', 'ok'),
+    MovieReview(1, 'Anonymous', 'ok'),
+    MovieReview(5, 'Anonymous', 'ok')
+  ]);
   MovieTest().reportMovieReviews();
 }
 
@@ -25,16 +32,13 @@ class MovieTest {
     });
   }
 
-  void calculateAverageRatingForReviews() {
+  void calculateAverageRatingForReviews(double expectedRate, List<MovieReview> reviews) {
     setUp(createMovie);
     test('calculateAverageRatingForReviews', () {
-      movie.addReview(MovieReview(4, 'Anonymous', 'ok'));
-      movie.addReview(MovieReview(5, 'Anonymous', 'ok'));
-      movie.addReview(MovieReview(3, 'Anonymous', 'ok'));
-      movie.addReview(MovieReview(2, 'Anonymous', 'ok'));
-      movie.addReview(MovieReview(1, 'Anonymous', 'ok'));
-      movie.addReview(MovieReview(5, 'Anonymous', 'ok'));
-      expect(movie.averageRate(), 3.3333333333333335);
+      for (var review in reviews) {
+        movie.addReview(review);
+      }
+      expect(movie.averageRate(), expectedRate);
     });
   }
 
